@@ -3,6 +3,8 @@ package com.example.coffeeshop.domain;
 import com.example.coffeeshop.domain.Category;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +18,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @Column(nullable = false,length = 255)
     private String productName;
 
     @Enumerated(EnumType.STRING)
     private Category category;
+    @Column(nullable = false)
     private long price; // cent포함으로 long
+    @Column (nullable = true, length = 255)
     private String description;
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createAt;
+    @LastModifiedDate
     private LocalDateTime updateAt; // 업데이트 날짜
 
     public Product(Long productId, String productName, Category category, long price){
