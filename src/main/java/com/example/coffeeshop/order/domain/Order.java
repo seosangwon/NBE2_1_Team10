@@ -14,17 +14,21 @@ import java.time.LocalDateTime;
 @Entity
 @EntityListeners(AuditingEntityListener.class) //변경 감지 LastModifiedDate
 @Getter @Setter
-@Table(name = "Orders")
+@Table(name = "orders")
 public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderid;
+    private Long orderId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
     @Column(nullable = false, length = 255)
     private String address;
+
     @Column(nullable = false, length = 255)
     private String postcode;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 255)
     private OrderStatus orderStatus;
