@@ -1,4 +1,4 @@
-package edu.example.gccoffeegradle.domain.product;
+package com.example.coffeeshop.domain;
 
 import com.example.coffeeshop.domain.Category;
 import jakarta.persistence.*;
