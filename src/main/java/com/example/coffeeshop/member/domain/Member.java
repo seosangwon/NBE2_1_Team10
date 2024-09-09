@@ -1,5 +1,6 @@
 package com.example.coffeeshop.member.domain;
 
+import com.example.coffeeshop.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -24,22 +27,10 @@ public class Member {
     @Column(nullable = false, length = 20)
     private String email;
 
-    @Column(nullable = false, length = 255)
-    private String address;
-
-    @Column(nullable = false, length = 255)
-    private String postcode;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-
-    public Member(String email, String address, String postcode) {
+    public Member(String email) {
         this.email = email;
-        this.address = address;
-        this.postcode = postcode;
     }
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 }
