@@ -1,4 +1,4 @@
-package com.example.coffeeshop.member;
+package com.example.coffeeshop.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
