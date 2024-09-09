@@ -31,6 +31,7 @@ public class Member {
     private String postcode;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
