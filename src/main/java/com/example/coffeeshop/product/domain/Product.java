@@ -1,6 +1,5 @@
-package com.example.coffeeshop.domain;
+package com.example.coffeeshop.product.domain;
 
-import com.example.coffeeshop.domain.Category;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
