@@ -56,5 +56,24 @@ public class Order {
         this.member = member;
         member.getOrders().add(this);
     }
+
+    // 주문과 orderItem의 연관관계 메서드
+    public void addOrderItem(OrderItem orderItem){
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    // 주문 생성 메서드
+    public static Order createOrder(String address, String postcode, Member member, OrderStatus orderStatus, OrderItem... orderItems){
+        Order order = new Order();
+        order.setAddress(address);
+        order.setPostcode(postcode);
+        order.setMember(member);
+        order.setOrderStatus(OrderStatus.CHECKING); //초기 주문의 상태는 확인중이어야함
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        return order;
+    }
 }
 
