@@ -75,5 +75,14 @@ public class Order {
         }
         return order;
     }
+
+    // 주문 취소 메서드
+    public void cancelOrder(){
+        if(orderStatus.equals(OrderStatus.CANCEL)){
+            // 이미 취소된 주문입니다
+        } else if (orderStatus.equals(OrderStatus.COMPLETE)) {
+            // 이미 완료된 주문입니다
+        } else setOrderStatus(OrderStatus.CANCEL);
+    }
 }
 
