@@ -1,7 +1,10 @@
 package com.example.coffeeshop.order.domain;
 
+import com.example.coffeeshop.orderitem.domain.OrderItem;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import com.example.coffeeshop.member.domain.Member;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,19 +12,25 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 @EntityListeners(AuditingEntityListener.class) //변경 감지 LastModifiedDate
 @Getter @Setter
 @Table(name = "orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "memberId", nullable = false)
     private Member member;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(nullable = false, length = 255)
     private String address;
