@@ -1,13 +1,11 @@
 package com.example.coffeeshop.product.sevice;
 
+import com.example.coffeeshop.product.domain.Category;
 import com.example.coffeeshop.product.domain.Product;
 import com.example.coffeeshop.product.repository.ProductRepository;
-import jakarta.persistence.metamodel.SingularAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,5 +39,8 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public List<Product> getProductsByCategory(Category category){
+        return productRepository.findByCategory(category);
+    }
 
 }

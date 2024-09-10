@@ -1,5 +1,6 @@
 package com.example.coffeeshop.product.controller;
 
+import com.example.coffeeshop.product.domain.Category;
 import com.example.coffeeshop.product.domain.Product;
 import com.example.coffeeshop.product.sevice.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,10 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/category/{category}")
+    public List<Product> getProductByCategory(@PathVariable Category category){
+        return productService.getProductsByCategory(category);
     }
 }
