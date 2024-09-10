@@ -26,7 +26,7 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
     // 연관관계 편의 메서드
