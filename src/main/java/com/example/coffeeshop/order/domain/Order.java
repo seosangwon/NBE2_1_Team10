@@ -26,7 +26,7 @@ public class Order {
     private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @OneToMany(mappedBy = "order")
@@ -57,14 +57,18 @@ public class Order {
         member.getOrders().add(this);
     }
 
-    // 주문과 orderItem의 연관관계 메서드
+    /**
+     * 편의 메서드라고 생각했으나 order와 orderItem의 참조 관계를 생각해보니 order가 먼저 생성된 후 orderItem을 갖고
+     * orderItem에 order를 set하면 문제를 해결할 수 있다.
+     * @param orderItem
+     */
     public void addOrderItem(OrderItem orderItem){
         orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
     // 주문 생성 메서드
-    public static Order createOrder(String address, String postcode, Member member, OrderStatus orderStatus, OrderItem... orderItems){
+    public static Order createOrder(String address, String postcode, Member member, OrderItem... orderItems){
         Order order = new Order();
         order.setAddress(address);
         order.setPostcode(postcode);
@@ -74,15 +78,6 @@ public class Order {
             order.addOrderItem(orderItem);
         }
         return order;
-    }
-
-    // 주문 취소 메서드
-    public void cancelOrder(){
-        if(orderStatus.equals(OrderStatus.CANCEL)){
-            // 이미 취소된 주문입니다
-        } else if (orderStatus.equals(OrderStatus.COMPLETE)) {
-            // 이미 완료된 주문입니다
-        } else setOrderStatus(OrderStatus.CANCEL);
     }
 }
 
