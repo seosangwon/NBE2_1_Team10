@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "orderitem")
+@Table(name = "orderitems")
 public class OrderItem {
 
     @Id
@@ -56,6 +56,5 @@ public class OrderItem {
     public void updateQuantity(int newQuantity) {
         this.quantity = newQuantity;
         this.price = this.product.getPrice() * newQuantity;
-        this.updatedAt = LocalDateTime.now();
     }
 }
