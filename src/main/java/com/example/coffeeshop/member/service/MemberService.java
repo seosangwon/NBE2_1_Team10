@@ -2,6 +2,7 @@ package com.example.coffeeshop.member.service;
 
 import com.example.coffeeshop.member.domain.Member;
 import com.example.coffeeshop.member.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     // 회원 생성
     public Member createMember(Member member) {
