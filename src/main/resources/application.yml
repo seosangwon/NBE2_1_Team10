@@ -1,1 +1,12 @@
-spring.application.name=coffee-shop
+spring:
+  application:
+    name: coffee-shop
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    mode: HTML
+
+server:
+  port: 8090
