@@ -1,16 +1,9 @@
 spring:
+  output:
+    ansi:
+      enabled: always
   datasource:
-    url: jdbc:h2:mem:testdb  # 테스트용 인메모리 H2 데이터베이스 사용
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:h2:mem:coffee_shop_test;MODE=MYSQL
   jpa:
     hibernate:
-      ddl-auto: create-drop  # 테스트 후 데이터베이스 초기화
-    show-sql: true  # 쿼리 로그 출력
-    properties:
-      hibernate:
-        format_sql: true
-  sql:
-    init:
-      platform: h2
+      ddl-auto: create
