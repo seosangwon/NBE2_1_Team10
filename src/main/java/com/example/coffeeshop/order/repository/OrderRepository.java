@@ -11,8 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    // ID로 주문 조회
-    Optional<Order> findByOrderId(Long id);
     // 주문 회원 email로 조회
-    List<Order> findByMember(Member member);
+    List<Order> findByMemberEmail(String email);
 }
