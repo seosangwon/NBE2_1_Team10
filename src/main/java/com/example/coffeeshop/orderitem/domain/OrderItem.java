@@ -43,20 +43,23 @@ public class OrderItem {
     @LastModifiedDate
     private LocalDateTime updatedAt;  // 수정일시
 
-//    // 생성자 (상품과 수량만 받음, 가격은 자동 계산)
-//    public OrderItem(Product product, int quantity, Order order) {
-//        this.product = product;
-//        this.quantity = quantity;
-//        this.price = product.getPrice() * quantity;
-//        this.order = order;
-//    }
     // Order와 참조 순환 발생
-    public static OrderItem createOrderItem(Product product, int quantity){
+    public static OrderItem createOrderItem(Product product, int quantity, Order order){
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
         orderItem.setQuantity(quantity);
+        orderItem.addOrderItem(order);
         orderItem.setPrice(product.getPrice()*quantity);
         return orderItem;
+    }
+
+    /**
+     * 연관관계 편의 메소드
+     * @param order
+     */
+    public void addOrderItem(Order order){
+        setOrder(order);
+        order.getOrderItems().add(this);
     }
 
     // 수량 변경 시 가격 자동 업데이트

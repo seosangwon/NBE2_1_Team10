@@ -2,10 +2,7 @@ package com.example.coffeeshop.order.domain;
 
 import com.example.coffeeshop.orderitem.domain.OrderItem;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import com.example.coffeeshop.member.domain.Member;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,6 +18,7 @@ import java.util.List;
 @Getter @Setter
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
@@ -29,7 +27,7 @@ public class Order {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(nullable = false, length = 255)
@@ -57,26 +55,16 @@ public class Order {
         member.getOrders().add(this);
     }
 
-    /**
-     * 편의 메서드라고 생각했으나 order와 orderItem의 참조 관계를 생각해보니 order가 먼저 생성된 후 orderItem을 갖고
-     * orderItem에 order를 set하면 문제를 해결할 수 있다.
-     * @param orderItem
-     */
-    public void addOrderItem(OrderItem orderItem){
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
-    }
-
     // 주문 생성 메서드
-    public static Order createOrder(String address, String postcode, Member member, OrderItem... orderItems){
+    public static Order createOrder(String address, String postcode, Member member){
         Order order = new Order();
         order.setAddress(address);
         order.setPostcode(postcode);
         order.setMember(member);
         order.setOrderStatus(OrderStatus.CHECKING); //초기 주문의 상태는 확인중이어야함
-        for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
-        }
+//        for (OrderItem orderItem : orderItems) {
+//            order.addOrderItem(orderItem);
+//        }
         return order;
     }
 }

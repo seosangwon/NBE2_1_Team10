@@ -10,11 +10,15 @@ import com.example.coffeeshop.product.domain.Product;
 import com.example.coffeeshop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderService {
     private final MemberRepository memberRepository;
@@ -22,33 +26,52 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
 
-    // 주문하기
-    public Long makeOrder(Long memberId, Long productId,String email, String address, String postcode, int quantity){
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NoSuchElementException("해당 제품은 없는 제품입니다"+productId));
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(()->new NoSuchElementException("서비스 대상에 해당하지 않는 아이디입니다."));
-        OrderItem orderItem = OrderItem.createOrderItem(product, quantity);
-        Order order = Order.createOrder(address,postcode,member,orderItem);
-        orderRepository.save(order);
-        return order.getOrderId();
+     // 주문하기
+    @Transactional
+    public Long createOrder(Map<Long, Integer> productQuantityMap, String postcode , String address, Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new NoSuchElementException("멤버 없음"));
+        Order order = Order.createOrder(address,postcode,member);
+        // OrderItem 생성 및 추가
+        for (Map.Entry<Long, Integer> entry : productQuantityMap.entrySet()) {
+            Long productId = entry.getKey();
+            int quantity = entry.getValue();
+
+            // Product 조회
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
+
+            // OrderItem 생성
+            OrderItem orderItem =OrderItem.createOrderItem(product,quantity, order);
+
+        }
+        // 주문 저장
+        Order saveOrder = orderRepository.save(order);
+        return saveOrder.getOrderId();
     }
+
     // email을 통한 주문 조회
     public List<Order> findOrderByEmail(String email){
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(()->new IllegalArgumentException("주문한적이 없는 email입니다"));
-        return orderRepository.findByMember(member);
+        return orderRepository.findByMemberEmail(email);
     }
 
     // id를 통한 주문 조회
     public Order findOrderByOrderId(Long id){
-       return orderRepository.findByOrderId(id).orElseThrow(()->new NoSuchElementException("없는 id입니다"));
+       return orderRepository.findById(id)
+               .orElseThrow(()-> new NoSuchElementException("없는 주문입니다"));
     }
+
     // 주문 취소
+    @Transactional(readOnly = false)
     public void cancelOrder(Long orderId){
-        memberRepository.deleteById(orderId);
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new NoSuchElementException("해당 주문이 존재하지 않습니다"));
+        //오더에서 member를 찾고
+        Member member = order.getMember();
+        // member에서 order를 지우고
+        member.removeOrder(order);
+        // orderRepository에서 지우기
+        orderRepository.deleteById(orderId);
     }
-    // 주문 수정 - 필요한가? PDF상으로 회원이 주문을 수정하는 것 같지는 않음
 
     // 전체 주문 조회
     public List<Order> findAll(){
@@ -58,18 +81,4 @@ public class OrderService {
         }
         return orders;
     }
-
-    /**
-     *
-     * @param productId
-     * @return
-     * // 특정 상품이 포함된 주문 조회
-     *     public List<Order> findByProductId(Long productId){
-     *         Product product = productRepository.findById(productId)
-     *                 .orElseThrow(()->new IllegalArgumentException("잘못된 productId입니다"));
-     *         // 주어진 product를 포함하는 모든 orderItem 조회
-     *          List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
-     *
-     *     }
-     */
 }
