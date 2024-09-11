@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## dev DB ##
+coffee_shop_dev.mv.db
+coffee_shop._devtrace.db
