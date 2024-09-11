@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,7 @@ public class ProductService {
     // ID로 제품 조회
     public Optional<Product> findProductById(Long id){
         return productRepository.findById(id);
+
     }
 
     // 새로운 제품 저장
