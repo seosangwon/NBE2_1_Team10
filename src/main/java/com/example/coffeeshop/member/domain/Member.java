@@ -26,6 +26,11 @@ public class Member {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    // 관리자, 유저로 구분
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
@@ -40,7 +45,8 @@ public class Member {
         order.setMember(null);
     }
 
-    public Member(String email) {
+    public Member(String email, Role role) {
         this.email = email;
+        this.role = role;
     }
 }
