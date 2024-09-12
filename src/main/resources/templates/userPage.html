@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>사용자 페이지</title>
+    <style>
+        body {
+            background-color: #f8f9fa; /* 연한 회색 배경 */
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+        .left-section, .right-section {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .left-section {
+            width: 50%;
+            border-right: 1px solid #ddd;
+            overflow-y: auto; /* 스크롤 가능 */
+        }
+        .right-section {
+            width: 50%;
+        }
+        .product-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .product-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+        .product-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+        .product-item div {
+            flex: 1;
+        }
+        .product-item h2 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        .product-item p {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        .product-item button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .product-item button:hover {
+            background-color: #0056b3;
+        }
+        .order-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .order-form input, .order-form button {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .order-form button {
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .order-form button:hover {
+            background-color: #0056b3;
+        }
+        .total-price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 왼쪽 섹션: 상품 정보 -->
+    <div class="left-section">
+        <h2>상품 정보</h2>
+        <ul class="product-list">
+            <li class="product-item">
+                <img src="path_to_product_image1.jpg" alt="상품 이미지 1">
+                <div>
+                    <h2>상품 이름 1</h2>
+                    <p>가격: $XX.XX</p>
+                    <button type="button">추가</button>
+                    <button type="button">빼기</button>
+                </div>
+            </li>
+            <li class="product-item">
+                <img src="path_to_product_image2.jpg" alt="상품 이미지 2">
+                <div>
+                    <h2>상품 이름 2</h2>
+                    <p>가격: $XX.XX</p>
+                    <button type="button">추가</button>
+                    <button type="button">빼기</button>
+                </div>
+            </li>
+            <!-- 추가 상품 정보를 여기에 넣으세요 -->
+        </ul>
+    </div>
+
+    <!-- 오른쪽 섹션: 주문 페이지 -->
+    <div class="right-section">
+        <h2>주문내역</h2>
+        <h2>주문하기</h2>
+        <form class="order-form" th:action="@{/submit-order}" method="post">
+            <input type="email" name="email" placeholder="이메일" required />
+            <input type="text" name="address" placeholder="주소" required />
+            <input type="text" name="zipcode" placeholder="우편번호" required />
+            <div class="total-price">총 가격: $XX.XX</div>
+            <button type="submit">주문하기</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
