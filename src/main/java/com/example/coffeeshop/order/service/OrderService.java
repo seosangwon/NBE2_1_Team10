@@ -119,6 +119,7 @@ public class OrderService {
         return findlists;
     }
     // 12시가 지나면, 주문 상태 변경
+    @Transactional
     @Scheduled(cron = "0 0 14 * * ?") // 매일 오후 14시에 실행
     public void updateOrderStatus(){
         List<Order> orders = orderRepository.findAll();  // 모든 주문 조회
