@@ -3,20 +3,18 @@ package com.example.coffeeshop.product.controller;
 import com.example.coffeeshop.product.DTO.ProductDTO;
 import com.example.coffeeshop.product.domain.Category;
 import com.example.coffeeshop.product.sevice.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
 
     // 모든 제품 목록 조회
     @GetMapping
