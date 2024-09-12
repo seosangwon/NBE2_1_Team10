@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDto {
+public class ProductDTO {
     private Long productId;
 
     @NotBlank(message = "상품명은 필수항목입니다.")
@@ -32,8 +32,8 @@ public class ProductDto {
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 
-    public static ProductDto of(Product product){
-        return ProductDto.builder()
+    public static ProductDTO of(Product product){
+        return ProductDTO.builder()
                 .productId(product.getProductId())
                 .productName(product.getProductName())
                 .category(product.getCategory())
@@ -46,11 +46,11 @@ public class ProductDto {
 
      public Product toEntity() {
         return Product.builder()
-                .productId(productId)
-                .productName(productName)
-                .category(category)
-                .price(price)
-                .description(description)
+                .productId(this.productId)
+                .productName(this.productName)
+                .category(this.category)
+                .price(this.price)
+                .description(this.description)
                 .build();
     }
 
