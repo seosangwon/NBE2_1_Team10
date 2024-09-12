@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -36,6 +35,7 @@ public class ProductService {
     }
 
     // 새 제품 저장
+    @Transactional
     public ProductDTO saveProduct(ProductDTO productDTO) {
         Product product = productDTO.toEntity(); // DTO -> 엔티티 변환
         Product savedProduct = productRepository.save(product);
@@ -43,6 +43,7 @@ public class ProductService {
     }
 
     // 제품 삭제 (예외 처리 포함)
+    @Transactional
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
             throw new IllegalArgumentException("해당 ID의 제품을 찾을 수 없습니다. ID: " + id);
@@ -57,6 +58,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public ProductDTO updateProduct(Long id,ProductDTO productDTO){
         Product product = productRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("해당 ID의 제품을 찾을 수 없습니다. ID : " + id));
