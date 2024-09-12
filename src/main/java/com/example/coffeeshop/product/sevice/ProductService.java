@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,5 +53,18 @@ public class ProductService {
         return productRepository.findByCategory(category).stream()
                 .map(ProductDTO::of) // Product -> ProductDTO로 변환
                 .collect(Collectors.toList());
+    }
+
+    public ProductDTO updateProduct(Long id,ProductDTO productDTO){
+        Product product = productRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("해당 ID의 제품을 찾을 수 없습니다. ID : " + id));
+        product.setProductName(productDTO.getProductName());
+        product.setCategory(productDTO.getCategory());
+        product.setPrice(productDTO.getPrice());
+        product.setDescription(productDTO.getDescription());
+        product.setUpdatedAt(LocalDateTime.now());
+
+        Product updatedProduct = productRepository.save(product);
+        return ProductDTO.of(updatedProduct);
     }
 }

@@ -50,4 +50,11 @@ public class ProductController {
     public List<ProductDTO> getProductsByCategory(@PathVariable String category) {
         return productService.getProductsByCategory(Category.valueOf(category));
     }
+
+    // 제품 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        ProductDTO updatedProduct = productService.updateProduct(id, productDTO);
+        return ResponseEntity.ok(updatedProduct);
+    }
 }
