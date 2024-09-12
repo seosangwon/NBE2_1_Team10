@@ -17,7 +17,9 @@ import java.util.NoSuchElementException;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private static final String ADMIN_EMAIL = "admin@example.com"; // 관리자 이메일 고정
+
+    // 관리자 이메일 고정
+    private static final String ADMIN_EMAIL = "admin@example.com";
 
     // 접근 권한 검사
     private void check(Member requester, Long targetMemberId) {
