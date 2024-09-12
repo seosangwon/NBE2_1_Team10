@@ -46,13 +46,14 @@ public class Order {
     // 주문 변경 시간
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
     /**
      * 연관관계 편의 메서드
      * @param member
      */
     public void setMember(Member member){
         this.member = member;
-        member.getOrders().add(this);
+       member.getOrders().add(this);
     }
 
     // 주문 생성 메서드
@@ -62,10 +63,8 @@ public class Order {
         order.setPostcode(postcode);
         order.setMember(member);
         order.setOrderStatus(OrderStatus.CHECKING); //초기 주문의 상태는 확인중이어야함
-//        for (OrderItem orderItem : orderItems) {
-//            order.addOrderItem(orderItem);
-//        }
         return order;
     }
+
 }
 
