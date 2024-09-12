@@ -23,38 +23,31 @@ public class MemberController {
         return ResponseEntity.ok(createdMember);
     }
 
-    // 모든 회원 조회
+    // 관리자만 모든 회원 조회 가능
     @GetMapping
-    public ResponseEntity<List<MemberDTO>> getAllMembers() {
-        List<MemberDTO> members = memberService.getAllMembers();
+    public ResponseEntity<List<MemberDTO>> getAllMembers(@RequestParam String adminEmail) {
+        List<MemberDTO> members = memberService.getAllMembers(adminEmail);
         return ResponseEntity.ok(members);
     }
 
-    // ID로 조회
+    // 자신의 회원 정보만 조회 가능
     @GetMapping("/{id}")
-    public ResponseEntity<MemberDTO> getMemberById(@PathVariable Long id) {
-        MemberDTO member = memberService.getMemberById(id);
+    public ResponseEntity<MemberDTO> getMemberById(@PathVariable Long id, @RequestParam String email) {
+        MemberDTO member = memberService.getMemberById(id, email);
         return ResponseEntity.ok(member);
     }
 
-    // 이메일로 회원 조회
-    @GetMapping("/email")
-    public ResponseEntity<MemberDTO> getMemberByEmail(@RequestParam String email) {
-        MemberDTO member = memberService.getMemberByEmail(email);
-        return ResponseEntity.ok(member);
-    }
-
-    // 회원 업데이트
+    // 회원 업데이트 - 관리자 또는 본인만 가능
     @PutMapping("/{id}")
-    public ResponseEntity<MemberDTO> updateMember(@PathVariable Long id, @Valid @RequestBody MemberDTO updatedMember) {
-        MemberDTO member = memberService.updateMember(id, updatedMember);
+    public ResponseEntity<MemberDTO> updateMember(@PathVariable Long id, @Valid @RequestBody MemberDTO updatedMember, @RequestParam String email) {
+        MemberDTO member = memberService.updateMember(id, updatedMember, email);
         return ResponseEntity.ok(member);
     }
 
-    // 회원 삭제
+    // 회원 삭제 - 관리자 또는 본인만 가능
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
-        memberService.deleteMember(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteMember(@PathVariable Long id, @RequestParam String email) {
+        memberService.deleteMember(id, email);
+        return ResponseEntity.ok().build();
     }
 }
