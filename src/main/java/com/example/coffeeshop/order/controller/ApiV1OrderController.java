@@ -1,6 +1,5 @@
 package com.example.coffeeshop.order.controller;
 
-import com.example.coffeeshop.order.domain.OrderStatus;
 import com.example.coffeeshop.order.dto.OrderDto;
 import com.example.coffeeshop.order.service.OrderService;
 import jakarta.validation.Valid;
@@ -14,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/orders")
-public class ApiV1Controller {
+public class ApiV1OrderController {
     private final OrderService orderService;
     // 주문 생성
     @PostMapping("/")
@@ -39,9 +38,9 @@ public class ApiV1Controller {
 
     // 전체 주문 목록 조회 : Postman으로 동작 확인
     @GetMapping("/order")
-    public ResponseEntity<List<?>> findAllOrder(@RequestBody @Valid OrderDto.FindResponseDto responseDto){
-        List<OrderDto.FindResponseDto> alllists = orderService.findAll();
-        return ResponseEntity.ok(alllists);
+    public ResponseEntity<List<?>> findAllOrder(){
+        List<OrderDto.FindResponseDto> allLists = orderService.findAll();
+        return ResponseEntity.ok(allLists);
     }
 
     // 주문 삭제 : Postman으로 동작 확인
