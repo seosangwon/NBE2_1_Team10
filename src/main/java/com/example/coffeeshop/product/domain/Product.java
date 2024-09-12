@@ -41,12 +41,6 @@ public class Product {
         this.updateAt = LocalDateTime.now();
     }
 
-    public Product(String name, Category category, long price){
-        this.productName=name;
-        this.category=category;
-        this.price=price;
-    }
-
     public void setPrice(long price) {
         this.price = price;
         this.updateAt = LocalDateTime.now();
