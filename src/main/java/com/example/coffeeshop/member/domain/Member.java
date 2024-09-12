@@ -23,7 +23,7 @@ public class Member {
 
     @Email(message = "유효한 이메일 주소를 입력해주세요.")
     @NotBlank(message = "이메일은 필수 입력 항목입니다.")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
